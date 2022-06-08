@@ -1,29 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include ('include/initialize.php');
+?>
+
+
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>History</title>
 </head>
 <body>
 
-<h1>History</h1>
+  <h1>History</h1>
 
+  <h2>Previous periods:</h2>
 
+      <?php
+      #good to make this a seperate function later. thoughts?
+      $dates = dbQuery(' 
+          SELECT startDate, endDate 
+          FROM periods
+        ')->fetchAll();
 
-<h2>Previous periods:</h2>
+      foreach ($dates as $row) {
+        echo "Started on ".convertDateToMDY($row['startDate']).". Ended on ".convertDateToMDY($row['endDate'])."<br><br>";
+      }
+      ?>
 
-<?php
-$result = dbQuery("SHOW TABLES")->fetchAll();
-var_dump($result);
-
-?>
-
-<h2>Your next period is coming in X days. </h2>
-
-
-
+  <h2>Your next period is coming in X days. </h2>
 
 </body>
 </html>
