@@ -8,8 +8,15 @@ function debugOutput($input){
 
 
 function convertDateToMDY($dateToConvert) {
-    $datePosted = $dateToConvert;
-    $datePosted = new DateTime($datePosted);
+    $datePosted= new DateTime($dateToConvert);
     $datePosted = $datePosted->format('m-d-Y');
     return $datePosted;
+}
+
+function fetchPeriodDates () {
+    $dates = dbQuery(' 
+          SELECT startDate, endDate 
+          FROM periods
+        ')->fetchAll();
+    return $dates;
 }

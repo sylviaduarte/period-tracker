@@ -13,13 +13,9 @@ include ('include/initialize.php');
   <h2>Previous periods:</h2>
 
       <?php
-      #good to make this a seperate function later. thoughts?
-      $dates = dbQuery(' 
-          SELECT startDate, endDate 
-          FROM periods
-        ')->fetchAll();
+      $periodDates = fetchPeriodDates();
 
-      foreach ($dates as $row) {
+      foreach ($periodDates as $row) {
         echo "Started on ".convertDateToMDY($row['startDate']).". Ended on ".convertDateToMDY($row['endDate'])."<br><br>";
       }
       ?>
