@@ -6,101 +6,64 @@ function debugOutput($input){
     echo "</pre>";
 }
 
-
-function convertDateToMDY($dateToConvert) {
-    $datePosted= new DateTime($dateToConvert);
-    $datePosted = $datePosted->format('m-d-Y');
-    return $datePosted;
+function turnStringToDTO ($dateAsString){
+    $dateAsDTO = new DateTime($dateAsString);
+    return $dateAsDTO;
 }
+
+#takes in DateTime() object and returns format as string
+#NOTE: MUST convert input to DTO first
+function convertDateTimeToMDYFormat($dateToConvert) { 
+    $dateToConvert = $dateToConvert->format('m-d-Y');
+    return $dateToConvert;
+}
+
+function convertDateTimeIntervalToDays ($dateInterval) {
+    $dateInterval = $dateInterval->format('%d');
+    return $dateInterval;
+}
+
 
 function fetchAllPeriodDates () {
     $dates = dbQuery(' 
-          SELECT startDate, endDate, periodId
+          SELECT startDate, endDate
           FROM periods
         ')->fetchAll();
     return $dates;
 }
 
-function fetchPeriodStartDate ($periodId) {
-    $dateData = fetchAllPeriodDates();
-    $periodStartDate = $dateData[$periodId]['startDate'];
-    return $periodStartDate;
+#returns 3d array of start dates
+#NOTE: unused function
+function fetchPeriodStartDates () {
+    $dates = dbQuery(' 
+          SELECT startDate
+          FROM periods
+        ')->fetchAll();
+    return $dates;
 }
 
-function fetchPeriodEndDate ($periodId) {
-    $dateData = fetchAllPeriodDates();
-    $periodEndDate = $dateData[$periodId]['endDate'];
-    return $periodEndDate;
-}
-
-function findNextPeriod ($startDate, $expectedCycleLength) {
-    $nextPeriodStartDate = dbQuery("
-        SELECT DATE_ADD('".$startDate."', INTERVAL ".$expectedCycleLength." DAY)
-    ")->fetch();
-    return $nextPeriodStartDate;
-}
-
-#have different options to echo?
-function returnNextPeriod ($startDate, $expectedCycleLength) {
-    $periodArray = findNextPeriod($startDate, $expectedCycleLength);
-    foreach($periodArray as $query => $periodDate) {
-        return $periodDate;
-    }
-}
-#is this needed lol
-#convertDateToMDY
-function echoNextPeriod ($startDate, $expectedCycleLength) {
-    $periodArray = findNextPeriod($startDate, $expectedCycleLength);
-    foreach($periodArray as $query => $periodDate) {
-        echo $periodDate;
-    }
-}
-
-function getCurrentDate () {
-    $currentDate = dbQuery("
-        SELECT CURRENT_TIMESTAMP()
-    ")->fetch();
-    return $currentDate;
+#returns 3d array of end dates
+#NOTE: unused function
+function fetchPeriodEndDates () {
+    $dates = dbQuery(' 
+          SELECT endDate
+          FROM periods
+        ')->fetchAll();
+    return $dates;
 }
 
 
-#idk
+#NOTE: input MUST be DateTime() object
 function findDateDifferenceFromToday ($futureDate) {
-    // $today = new DateTime();
-    // $today->format('Y-m-d h:m:s');
-    // $futureDate = strtotime($futureDate);
-    // $interval = date_diff($today, $futureDate);
-    // return $interval;
-
-    $todayDate = date('Y-m-d H:i:s');
-
-    echo $todayDate;
-    
-    $dateDifference = (date_diff($todayDate, $futureDate))->format('%R%d days');
-
+    $today = new DateTime();
+    $dateDifference = date_diff($today, $futureDate);
     return $dateDifference;
 
-
 }
 
-
-#wut
-function findDaysUntilNextPeriod ($dateOfNextPeriod) {
-    // $today = dbQuery("
-    //     SELECT CURRENT_TIMESTAMP
-    // ") -> fetch();
-    // $todayfr = '';
-    // foreach ($today as $query => $date) {
-    //     $todayfr = $date;
-    // }
-
-    $today = new DateTime();
-    $today = date_format($today, 'Y-m-d h:m:s');
-
-    // var_dump($today);
-    $dateDifference = dbQuery("
-        SELECT DATEDIFF (DAY, '".$today."', '".$dateOfNextPeriod."')
-    ") -> fetch();
-   
-    var_dump($dateDifference);
+#returns DateTime object
+function findStartDateOfNextPeriod ($lastStartDate, $cycleLengthInDays) {
+    $cycleLengthInDays = new DateInterval("P".$cycleLengthInDays."D");
+    $nextPeriodStartDate = date_add($lastStartDate, $cycleLengthInDays);
+    return $nextPeriodStartDate;
 }
