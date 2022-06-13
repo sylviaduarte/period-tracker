@@ -6,6 +6,12 @@ function debugOutput($input){
     echo "</pre>";
 }
 
+#returns last index of array as a string 
+function getLastPeriodDatesinArray ($periodArray) {
+    $lastPeriod = end($periodArray);
+    return $lastPeriod;
+}
+
 function turnStringToDTO ($dateAsString){
     $dateAsDTO = new DateTime($dateAsString);
     return $dateAsDTO;

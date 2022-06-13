@@ -9,7 +9,7 @@ include ('include/initialize.php');
 <body>
 
   <h1>History</h1>
-  <h2>Assume your cycle length is <span style = 'color: red;'> 30 days </span></h2>
+  <h2>Assume your cycle length is <span> 30 days </span></h2>
 
       <?php
 
@@ -22,7 +22,7 @@ include ('include/initialize.php');
 
     ##################################################
 
-    
+
     #returns query of dates as array of strings
     $periodDates = fetchAllPeriodDates();
     
@@ -34,8 +34,8 @@ include ('include/initialize.php');
         Ended on ".convertDateTimeToMDYFormat($periodEnd)."<br><br>";
       }
 
-    #end() array function
-    $lastPeriod = end($periodDates);
+    #gets last index of array as string
+    $lastPeriod = getLastPeriodDatesinArray($periodDates);
     
     #convert start date string to DateTime object
     $lastStartDate = turnStringToDTO($lastPeriod['startDate']);
@@ -52,11 +52,17 @@ include ('include/initialize.php');
 
     ?>
 
-  <h2>Your next period is coming in <span style = 'color: red;'><?php echo $daysUntilNextPeriod?></span> days. </h2>
+  <h2>Your next period is coming in <span><?php echo $daysUntilNextPeriod?></span> days. </h2>
   <h3>AKA on <?php echo convertDateTimeToMDYFormat($nextPeriodStartDate) ?>.</h3>
 
 </body>
 </html>
+
+<style>
+  span {
+    color: red;
+  }
+</style>
 
 
 
