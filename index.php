@@ -52,8 +52,8 @@ include ('include/initialize.php');
 
     ?>
 
-  <h2>Your next period is coming in <span><?php echo $daysUntilNextPeriod?></span> days. </h2>
-  <h3>AKA on <?php echo convertDateTimeToMDYFormat($nextPeriodStartDate) ?>.</h3>
+  <h2>Your next period is coming in <span><?= $daysUntilNextPeriod?></span> days. </h2>
+  <h3>AKA on <?= convertDateTimeToMDYFormat($nextPeriodStartDate) ?>.</h3>
 
 </body>
 </html>

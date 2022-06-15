@@ -73,3 +73,13 @@ function findStartDateOfNextPeriod ($lastStartDate, $cycleLengthInDays) {
     $nextPeriodStartDate = date_add($lastStartDate, $cycleLengthInDays);
     return $nextPeriodStartDate;
 }
+
+//
+
+// function getNumDayOfWeek (){
+//     $today = new DateTime();
+//     $today = $today->format('N');
+//     $today = $today->modify('1+ days');
+    
+//     return $today;
+// }
