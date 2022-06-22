@@ -11,7 +11,7 @@ $_SESSION['date'] = getDateToStoreInSession();
 $selectedMonthObject = $_SESSION['date'];
 
 $currentMonthObject = new DateTime(); //for checking if we are in current month for ln 54
-$currentMonthDisplayedAsMonthNo = convertDateTimeToMonthNo($currentMonthObject);
+$currentMonthDisplayedAsNo = convertDateTimeToMonthNo($currentMonthObject);
 
 $selectedMonthDisplayedAsName = convertDateTimeToMonthName($selectedMonthObject);
 $selectedMonthDisplayedAsNo = convertDateTimeToMonthNo($selectedMonthObject);
@@ -46,7 +46,7 @@ $daysInSelectedMonthDisplayed = cal_days_in_month(CAL_GREGORIAN, $selectedMonthD
                 <div class = 'hidden'>".$dayNo."</div>";
             }
             else if ($dayCount >= $weekNoOfFirstDayOfSelectedMonth) { //days included in the month
-                if ($dayNo == $todayDayNo && $selectedMonthDisplayedAsNo === $currentMonthDisplayedAsMonthNo) {
+                if ($dayNo == $todayDayNo && $selectedMonthDisplayedAsNo === $currentMonthDisplayedAsNo) {
                     echo "
                     <div class = 'to day'>".$dayNo."</div>";
                     $dayNo++;
