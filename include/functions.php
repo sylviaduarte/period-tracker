@@ -17,12 +17,52 @@ function turnStringToDTO ($dateAsString){
     return $dateAsDTO;
 }
 
+//////// DATE FORMATTING FUNCTIONS ////////
+
 #takes in DateTime() object and returns format as string
 #NOTE: MUST convert input to DTO first
+
 function convertDateTimeToMDYFormat($dateToConvert) { 
     $dateToConvert = $dateToConvert->format('m-d-Y');
     return $dateToConvert;
 }
+
+function convertDateTimeToMonthName($dateToConvert) {
+    $dateToConvert = $dateToConvert->format('F');
+    return $dateToConvert;
+}
+
+function convertDateTimeToMonthNo($dateToConvert) {
+    $dateToConvert = $dateToConvert->format('n');
+    return $dateToConvert;
+}
+
+function convertDateTimeToYear($dateToConvert) {
+    $dateToConvert = $dateToConvert->format('Y');
+    return $dateToConvert;
+}
+
+function getFirstDayOfMonth($date) {
+    $date = $date->modify('first day of this month');
+    return $date;
+}
+
+function getWeekNoOfDay($date) {
+    $date = $date->format('w');
+    return $date;
+}
+
+function getTodayDayNo() {
+    $date = new DateTime();
+    $date = $date->format('j');
+    return $date;
+}
+
+function getDayNo($date) {
+    $date = $date->format('j');
+    return $date;
+}
+//////// ------------------------ ////////
 
 function convertDateTimeIntervalToDays ($dateInterval) {
     $dateInterval = $dateInterval->format('%d');
@@ -72,4 +112,23 @@ function findStartDateOfNextPeriod ($lastStartDate, $cycleLengthInDays) {
     $cycleLengthInDays = new DateInterval("P".$cycleLengthInDays."D");
     $nextPeriodStartDate = date_add($lastStartDate, $cycleLengthInDays);
     return $nextPeriodStartDate;
+}
+
+
+function getDateToStoreInSession () {
+    $monthInterval = new DateInterval("P1M");
+    $monthDisplayed = new DateTime();
+    
+    if (!isset($_SESSION['date']) ||  isset($_POST['now'])){
+        $monthDisplayed = new DateTime();
+    }
+    
+    else if (isset ($_POST['prev'])) {
+        $monthDisplayed = date_sub($_SESSION['date'], $monthInterval);
+    }
+    
+    else if (isset ($_POST['next'])) {
+        $monthDisplayed = date_add($_SESSION['date'], $monthInterval);
+    }
+    return $monthDisplayed;
 }

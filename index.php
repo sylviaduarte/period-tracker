@@ -5,25 +5,14 @@ include ('include/initialize.php');
 
 <html>
 <head>
+  <link rel = 'stylesheet' href = 'style.css'/>
 </head>
 <body>
 
   <h1>History</h1>
   <h2>Assume your cycle length is <span> 30 days </span></h2>
 
-      <?php
-
-    ##################################################
-    //           PLAN FOR PERIOD DATA:
-
-    ## 1: fetch all period dates from SQL -> returns dates in form of array 
-    ## 2: convert dates to DateTime objects 
-    ## 3: find difference in two dates: today and last period start date 
-
-    ##################################################
-
-
-    #returns query of dates as array of strings
+    <?php
     $periodDates = fetchAllPeriodDates();
     
     #display all period dates
@@ -52,17 +41,10 @@ include ('include/initialize.php');
 
     ?>
 
-  <h2>Your next period is coming in <span><?php echo $daysUntilNextPeriod?></span> days. </h2>
-  <h3>AKA on <?php echo convertDateTimeToMDYFormat($nextPeriodStartDate) ?>.</h3>
+  <h2>Your next period is coming in <span><?= $daysUntilNextPeriod?></span> days. </h2>
+  <h3>AKA on <?= convertDateTimeToMDYFormat($nextPeriodStartDate) ?>.</h3>
 
 </body>
 </html>
-
-<style>
-  span {
-    color: red;
-  }
-</style>
-
 
 
