@@ -116,22 +116,19 @@ function findStartDateOfNextPeriod ($lastStartDate, $cycleLengthInDays) {
 
 
 function getDateToStoreInSession () {
+    $monthInterval = new DateInterval("P1M");
+    $monthDisplayed = new DateTime();
+    
     if (!isset($_SESSION['date']) ||  isset($_POST['now'])){
         $monthDisplayed = new DateTime();
-        return $monthDisplayed;
     }
     
     else if (isset ($_POST['prev'])) {
-        $monthInterval = new DateInterval("P1M");
         $monthDisplayed = date_sub($_SESSION['date'], $monthInterval);
-        return $monthDisplayed;
-
     }
     
     else if (isset ($_POST['next'])) {
-        $monthInterval = new DateInterval("P1M");
         $monthDisplayed = date_add($_SESSION['date'], $monthInterval);
-        return $monthDisplayed;
-
     }
+    return $monthDisplayed;
 }

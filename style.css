@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin: 0 100px;
+    margin: 0 10vh;
 }
 
 .to, .day {
