@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@700&display=swap');
+
+:root {
+    --pink: #EF7272;
+    --green: #65AB65;
+    --dark-gray: #808080;
+    --light-gray: #C3BDBD;
+    
+
+}
+body {
+    margin: 8vh 15vh;
+}
+
 .col, .column {
     display: flex;
     justify-content: space-evenly;
@@ -5,7 +19,7 @@
     margin: 0 10vh;
 }
 
-.to, .day {
+.to, .day, .bro {
     margin: 3vh;
     padding: 1vh;
     border-style: solid;
@@ -18,6 +32,10 @@
     border-color: red;
 }
 
+.period {
+    border-color: green;
+}
+
 .hidden {
     margin: 3vh;
     padding: 1vh;
@@ -26,10 +44,123 @@
     color: white;
 }
 
+
+/* homepage content */
+
+h1, h2, p {
+    font-family: 'Poppins';
+}
+
+h3, h4, button {
+    font-family: 'Roboto';
+}
+
+h1, span {
+    color: var(--pink);
+}
+
+h3, h4 {
+    color: var(--dark-gray);
+}
+
 h1 {
+    text-align: left;
+    font-size: 10vh;
+
+}
+
+h2 {
+    font-size: 8vh;
+    margin-top: 0;
+}
+
+h3 {
+    font-size: 3vh;
+}
+
+h4 {
+    font-size: 2.5vh;
+    width: 5vh;
+    height: 1vh;
     text-align: center;
 }
 
-span {
-    color: red;
-  }
+
+p {
+    color: var(--light-gray);
+    font-size: 4vh;
+    margin-bottom: 0;
+}
+
+.weekday {
+    width: 60vh;
+}
+.month-name {
+    display: flex;
+    justify-content: space-between;
+}
+.cal-arrows {
+    display: flex;
+    width: 7vh;
+    justify-content: space-around;
+}
+#yo {
+    color: var(--pink);
+    font-size: 3vh;
+    margin: 0%;
+}
+.today {
+    text-emphasis-style: circle;
+    text-emphasis-position: under;
+    text-emphasis-color: var(--pink);
+
+}
+button {
+    border-radius: 15px;
+    background-color: white;
+    font-weight: 700;
+    font-size: 4vh;
+    padding: 1vh 3vh;
+    align-self: flex-start;
+    border-width: 0.5vh;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.calendar-container {
+    /* background-color: blue; */
+    /* width: 10vh;
+    height: 10vh; */
+    flex: 0.75;
+    margin-right: 10vh;
+ 
+}
+
+.calendar-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.text-container {
+    margin: 0 10vh;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.cal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
