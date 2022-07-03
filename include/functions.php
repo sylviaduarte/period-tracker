@@ -132,3 +132,28 @@ function getDateToStoreInSession () {
     }
     return $monthDisplayed;
 }
+
+function getPrevMonthURL ($currentMonthAsDTO) {
+    $oneMonthInterval = new DateInterval('P1M');
+    $previousMonthAsDTO = date_sub($currentMonthAsDTO,$oneMonthInterval);
+    $previousMonthAsString = $previousMonthAsDTO->format('F');
+    $previousMonthYear = $previousMonthAsDTO->format('Y');
+    $_GET['month'] = $previousMonthAsString;
+    $_GET['year'] = $previousMonthYear;
+    $queryResult = http_build_query($_GET);
+    $previousMonthURL = substr($_SERVER['PHP_SELF'], 1). '?'.$queryResult;
+    echo $previousMonthURL;
+}
+
+#idk why it works with this 2M date interval
+function getNextMonthURL ($currentMonthAsDTO) {
+    $twoMonthInterval = new DateInterval('P2M');
+    $nextMonthAsDTO = date_add($currentMonthAsDTO, $twoMonthInterval);
+    $nextMonthAsString = $nextMonthAsDTO->format('F');
+    $nextMonthYear = $nextMonthAsDTO->format('Y');
+    $_GET['month'] = $nextMonthAsString;
+    $_GET['year'] = $nextMonthYear;
+    $queryResult = http_build_query($_GET);
+    $nextMonthURL = substr($_SERVER['PHP_SELF'], 1). '?'.$queryResult;
+    echo $nextMonthURL;
+}

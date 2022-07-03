@@ -76,6 +76,7 @@ h2 {
 
 h3 {
     font-size: 3vh;
+text-decoration: none;
 }
 
 h4 {
@@ -85,6 +86,9 @@ h4 {
     text-align: center;
 }
 
+h3 > a {
+    text-decoration: none;
+}
 
 p {
     color: var(--light-gray);
@@ -103,7 +107,10 @@ p {
     display: flex;
     width: 7vh;
     justify-content: space-around;
+    text-decoration: none;
 }
+
+
 #yo {
     color: var(--pink);
     font-size: 3vh;

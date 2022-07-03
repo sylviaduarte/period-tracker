@@ -28,25 +28,37 @@ foreach ($periodStartDatesQuery as $key => $array) {
     }
 } 
 
-if (isset($_POST['<'])) {
+# $_GET['month'] = string -> convert to DTO -> post requests do date math 
+# with DTOs and then converts result to string to put in $_GET
+# then we generate a new url with the parameters
 
+$monthAsString = $_GET['month'];
+
+debugOutput($monthAsString);
+
+$yearOfMonth = $_GET['year'];
+
+debugOutput($yearOfMonth);
+
+$monthAsDTO = turnStringToDTO ($monthAsString." ".$yearOfMonth);
+
+debugOutput($monthAsDTO);
+
+#no $_GET var = first page load = display current month
+if (!isset ($_GET['month']) || $_GET['month'] == "") { 
+    $monthAsDTO = new DateTime();
+    $monthAsString = $monthAsDTO->format('F');
+    $yearOfMonth = $monthAsDTO->format('Y');
 }
-if (isset($_POST['>'])) {
-    
-}
+
 #date variables
-
-
-
-#experiment
-
+$monthAsNo = $monthAsDTO ->format('n');
+$daysInMonth = cal_days_in_month(CAL_GREGORIAN,$monthAsNo,$yearOfMonth);
 
 
 ?>
-<form action = 'homepage.php' method = 'post'>
-    <button name = '<'><</button>
-    <button name = '>'>></button>
-</form>
+
+
 
 <h1>period tracker.</h1>
 
@@ -55,10 +67,10 @@ if (isset($_POST['>'])) {
     <section class = 'calendar-container'>
         <div class = 'month-name'>
             <!-- change with php later -->
-            <h3>June 2022</h3>
+            <h3><?=$monthAsString?> <?=$yearOfMonth?></h3>
             <div class = 'cal-arrows'>
-                <h3><</h3>
-                <h3>></h3>
+                <h3><a class = 'arrow-link' href ="<?php getPrevMonthURL($monthAsDTO); ?>" style = 'text-decoration: none; color: var(--dark-gray)'> < </a></h3>
+                <h3><a class = 'arrow-link' href = "<?php getNextMonthURL($monthAsDTO); ?>" style = 'text-decoration: none; color: var(--dark-gray)'> > </a></h3>
             </div>
         </div>
         <div class = 'calendar-display'>
