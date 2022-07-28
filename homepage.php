@@ -2,6 +2,7 @@
 <head>
     <link rel = 'stylesheet' href = 'style.css'/>
 </head>
+
 <body>
 
 <?php
@@ -9,13 +10,7 @@ include ('include/initialize.php');
 
 #find period lengths & store in array
 $periodDates = fetchAllPeriodDates();
-$periodLengths = array();
-foreach ($periodDates as $array) {
-    $periodStart = turnStringToDTO($array['startDate']);
-    $periodEnd = turnStringToDTO($array['endDate']);
-    $periodLength = date_diff($periodEnd, $periodStart)->format('%d');
-    $periodLengths[] = $periodLength;
-}
+
 
 #fetch period start date (day, month, year) and store in 3d array
 $periodStartDatesQuery = fetchPeriodStartDates();
@@ -28,21 +23,16 @@ foreach ($periodStartDatesQuery as $key => $array) {
     }
 } 
 
+// debugOutput ($periodStartsAsString);
 # $_GET['month'] = string -> convert to DTO -> post requests do date math 
 # with DTOs and then converts result to string to put in $_GET
 # then we generate a new url with the parameters
 
-$monthAsString = $_GET['month'];
+// $monthAsString = $_GET['month'];
 
-debugOutput($monthAsString);
+// $yearOfMonth = $_GET['year'];
 
-$yearOfMonth = $_GET['year'];
-
-debugOutput($yearOfMonth);
-
-$monthAsDTO = turnStringToDTO ($monthAsString." ".$yearOfMonth);
-
-debugOutput($monthAsDTO);
+// $monthAsDTO = turnStringToDTO ($monthAsString." ".$yearOfMonth);
 
 #no $_GET var = first page load = display current month
 if (!isset ($_GET['month']) || $_GET['month'] == "") { 
@@ -54,98 +44,49 @@ if (!isset ($_GET['month']) || $_GET['month'] == "") {
 #date variables
 $monthAsNo = $monthAsDTO ->format('n');
 $daysInMonth = cal_days_in_month(CAL_GREGORIAN,$monthAsNo,$yearOfMonth);
+$firstDayNoOfMonth = getFirstDayOfMonth($monthAsDTO);
+$firstWeekdayNo = getWeekNoOfDay($firstDayNoOfMonth);
+$todayDayNo= getTodayDayNo();
+$presentMonthAsDTO = new DateTime();
+$presentMonthAsString = $presentMonthAsDTO->format('F');
+$presentYear = $presentMonthAsDTO->format('Y');
+
+#find date of next period - assume cycle is 30 days
+$lastPeriod = end($periodDates);
+$lastStartDate = turnStringToDTO($lastPeriod['startDate']);
+$nextPeriodStartDate = findStartDateOfNextPeriod($lastStartDate, 30);
+$daysUntilNextPeriod = findDateDifferenceFromToday($nextPeriodStartDate);
+$daysUntilNextPeriod=$daysUntilNextPeriod->format('%d');
+
+
+
+
+$dayUnit = 'days';
+if ($daysUntilNextPeriod<2) {
+    $dayUnit = 'day';
+}
 
 
 ?>
 
-
-
+  
 <h1>period tracker.</h1>
 
 <main>
+<?php
+getCalendar ("August", "2022");
 
-    <section class = 'calendar-container'>
-        <div class = 'month-name'>
-            <!-- change with php later -->
-            <h3><?=$monthAsString?> <?=$yearOfMonth?></h3>
-            <div class = 'cal-arrows'>
-                <h3><a class = 'arrow-link' href ="<?php getPrevMonthURL($monthAsDTO); ?>" style = 'text-decoration: none; color: var(--dark-gray)'> < </a></h3>
-                <h3><a class = 'arrow-link' href = "<?php getNextMonthURL($monthAsDTO); ?>" style = 'text-decoration: none; color: var(--dark-gray)'> > </a></h3>
-            </div>
-        </div>
-        <div class = 'calendar-display'>
-            <div class = 'weekday cal-row'>
-                <h4>M</h4>
-                <h4>T</h4>
-                <h4>W</h4>
-                <h4>T</h4>
-                <h4>F</h4>
-                <h4>S</h4>
-                <h4>S</h4>
-            </div>
-            
-            <div class = 'cal-row'>
-                <h4>1</h4>
-                <h4>2</h4>
-                <h4>3</h4>
-                <h4 id = 'yo'>4</h4>
-                <h4 class = 'today'>5</h4>
-                <h4 class = 'today'>6</h4>
-                <h4 class = 'today'>7</h4>
-            </div>
-            <div class = 'cal-row'>
-                <h4 class = 'today'>8</h4>
-                <h4 class = 'today'>9</h4>
-                <h4>10</h4>
-                <h4>11</h4>
-                <h4>12</h4>
-                <h4>13</h4>
-                <h4>14</h4>
-            </div>
-            <div class = 'cal-row'>
-                <h4>8</h4>
-                <h4>9</h4>
-                <h4>10</h4>
-                <h4>11</h4>
-                <h4>12</h4>
-                <h4>13</h4>
-                <h4>14</h4>
-            </div>
-            <div class = 'cal-row'>
-                <h4>8</h4>
-                <h4>9</h4>
-                <h4>10</h4>
-                <h4>11</h4>
-                <h4>12</h4>
-                <h4>13</h4>
-                <h4>14</h4>
-            </div>
-            <div class = 'cal-row'>
-                <h4>8</h4>
-                <h4>9</h4>
-                <h4>10</h4>
-                <h4>11</h4>
-                <h4>12</h4>
-                <h4>13</h4>
-                <h4>14</h4>
-            </div>
-            <div class = 'cal-row'>
-                <h4>8</h4>
-                <h4>9</h4>
-                <h4>10</h4>
-                <h4>11</h4>
-                <h4>12</h4>
-                <h4>13</h4>
-                <h4>14</h4>
-            </div>
-    </section>
+ ?>
+        
+        </section>
     <section class = 'text-container'>
         <!--changed with php later !-->
         <p>status: off your period</p>
-        <h2>your period is in <br> <span>3 days.</span></h2>
+        <h2>your period is in <br> <span><?=$daysUntilNextPeriod?> <?=$dayUnit?>.</span></h2>
         <button>start period!</button>
     </section>
 
 </main>
 
 </body>
+

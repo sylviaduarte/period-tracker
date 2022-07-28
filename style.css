@@ -40,7 +40,7 @@ body {
     margin: 3vh;
     padding: 1vh;
     border-style: solid;
-    border-color: blue;
+    /* border-color: blue; */
     color: white;
 }
 
